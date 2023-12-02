@@ -17,7 +17,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Setter
 @Getter
-@ToString
+//@ToString
 
 @Entity
 @Table(name = "author_details")
