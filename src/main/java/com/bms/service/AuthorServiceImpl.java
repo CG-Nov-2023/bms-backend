@@ -1,7 +1,9 @@
 package com.bms.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +19,14 @@ public class AuthorServiceImpl implements AuthorService
 	
 	@Override
 	public List<AuthorPojo> getAllAuthors() {
-		List<AuthorEntity> allAuthors = authorRepository.findAll();
-		return null;
+		List<AuthorEntity> allAuthorsEntity = authorRepository.findAll();
+		List<AuthorPojo> allAuthorsPojo = new ArrayList<AuthorPojo>();
+		for(AuthorEntity authorEntity: allAuthorsEntity) {
+			AuthorPojo authorPojo = new AuthorPojo();
+			BeanUtils.copyProperties(authorEntity, authorPojo);
+			allAuthorsPojo.add(authorPojo);
+		}
+		return allAuthorsPojo;
 	}
 
 	@Override
