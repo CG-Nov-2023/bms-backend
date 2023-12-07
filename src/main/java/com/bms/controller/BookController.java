@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 import com.bms.service.BookService;
+
+import jakarta.validation.Valid;
+
 import com.bms.model.BookPojo;
 
 @CrossOrigin
@@ -45,7 +48,7 @@ public class BookController {
 	
 	//http://localhost:6868/api/books
 	@PostMapping("/books")
-	BookPojo addBook(@RequestBody BookPojo newBookPojo) {
+	BookPojo addBook(@RequestBody @Valid BookPojo newBookPojo) {
 		return bookService.addBook(newBookPojo);
 	}
 	

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.bms.dao.BookRepository;
 import com.bms.dao.entity.AuthorEntity;
 import com.bms.dao.entity.BookEntity;
+import com.bms.exception.NoBooksAvailableException;
 import com.bms.model.AuthorPojo;
 import com.bms.model.BookPojo;
 
@@ -25,6 +26,9 @@ public class BookServiceImpl implements BookService
 		List<BookEntity> allBooksEntity = bookRepository.findAll();
 		// copy the collection of BookEntity into a collection BookPOjo
 		List<BookPojo> allBooksPojo = new ArrayList<BookPojo>();
+		if(allBooksEntity.isEmpty()) {
+			throw new NoBooksAvailableException();
+		}
 		for(BookEntity eachBookEntity: allBooksEntity) {
 			BookPojo eachBookPojo = new BookPojo();
 			BeanUtils.copyProperties(eachBookEntity, eachBookPojo);
