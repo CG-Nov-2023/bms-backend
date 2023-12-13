@@ -25,8 +25,17 @@ public class GlobalExceptionHandler{
 	    return ResponseEntity.badRequest().body(errors);
 	}
 	
-	@ExceptionHandler()
+	@ExceptionHandler(NoBooksAvailableException.class)
 	protected ResponseEntity<Object> handleNoBookAvailableException(NoBooksAvailableException nb){
+		Map<String, Object> error = new HashMap<String, Object>();
+		error.put("errorCode", 301);
+		error.put("timestamp", LocalDateTime.now());
+		error.put("errorMessage", nb.getMessage());
+		return ResponseEntity.badRequest().body(error);
+	}
+	
+	@ExceptionHandler(RuntimeException.class)
+	protected ResponseEntity<Object> handleRuntimeException(RuntimeException nb){
 		Map<String, Object> error = new HashMap<String, Object>();
 		error.put("errorCode", 301);
 		error.put("timestamp", LocalDateTime.now());

@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import com.bms.model.BookPojo;
 
-
 public interface BookService {
 	List<BookPojo> getAllBooks();
 	BookPojo getABook(int bId);
