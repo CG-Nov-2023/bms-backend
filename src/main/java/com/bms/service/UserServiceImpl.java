@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.bms.dao.UserRepository;
 import com.bms.dao.entity.RolesEntity;
 import com.bms.dao.entity.UserEntity;
+import com.bms.model.AuthPojo;
 import com.bms.model.RolesPojo;
 import com.bms.model.UserPojo;
 
@@ -18,8 +19,12 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	UserRepository userRepository;
 	
+	@Autowired
+	JwtService jwtService;
+	
 	@Override
-	public UserPojo authenticateUser(UserPojo userPojo) {
+	public AuthPojo authenticateUser(UserPojo userPojo) {
+		AuthPojo authPojo = new AuthPojo();
 		UserEntity fetchedUserEntity = userRepository.findByUserName(userPojo.getUserName());
 		if(fetchedUserEntity!=null && fetchedUserEntity.getUserPassword().equals(userPojo.getUserPassword())) {
 			// means a record has been fetched
@@ -30,12 +35,14 @@ public class UserServiceImpl implements UserService{
 				allRolesPojo.add(new RolesPojo(eachRolesEntity.getRolesId(), eachRolesEntity.getRolesName()));		
 			}
 			userPojo.setAllRolesPojo(allRolesPojo);
+			authPojo.setUser(userPojo);
+			authPojo.setToken(jwtService.generateToken(userPojo));
 		}else {
 			// username/password does not exist
 			// throw custom exception
 			throw new RuntimeException("Invalid Username/password!");
 		}
-		return userPojo;
+		return authPojo;
 	}
 
 }

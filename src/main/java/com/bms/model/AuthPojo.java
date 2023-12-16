@@ -12,7 +12,6 @@ import lombok.ToString;
 @Setter
 @ToString
 public class AuthPojo {
-	String userName;
-	String userPassword;
+	UserPojo user;
 	String token;
 }

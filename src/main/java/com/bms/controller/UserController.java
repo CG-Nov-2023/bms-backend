@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bms.model.AuthPojo;
 import com.bms.model.UserPojo;
 import com.bms.service.UserService;
 
@@ -19,7 +20,7 @@ public class UserController {
 	UserService userService;
 	
 	@PostMapping("/login")
-	public UserPojo authenticateUser(@RequestBody UserPojo userPojo) {
+	public AuthPojo authenticateUser(@RequestBody UserPojo userPojo) {
 		return userService.authenticateUser(userPojo);
 	}
 }

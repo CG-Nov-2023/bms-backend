@@ -9,8 +9,10 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class GlobalExceptionHandler{
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
@@ -27,6 +29,15 @@ public class GlobalExceptionHandler{
 	
 	@ExceptionHandler(NoBooksAvailableException.class)
 	protected ResponseEntity<Object> handleNoBookAvailableException(NoBooksAvailableException nb){
+		Map<String, Object> error = new HashMap<String, Object>();
+		error.put("errorCode", 301);
+		error.put("timestamp", LocalDateTime.now());
+		error.put("errorMessage", nb.getMessage());
+		return ResponseEntity.badRequest().body(error);
+	}
+	
+	@ExceptionHandler(JwtException.class)
+	protected ResponseEntity<Object> handleJwtException(JwtException nb){
 		Map<String, Object> error = new HashMap<String, Object>();
 		error.put("errorCode", 301);
 		error.put("timestamp", LocalDateTime.now());
